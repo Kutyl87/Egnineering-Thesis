@@ -1,6 +1,5 @@
 import os
 import csv
-import pandas as pd
 import logging
 
 
@@ -37,7 +36,7 @@ class DataParser:
         for file in file_list:
             existing_data = self._read_data(file)
             if existing_data[0].strip().split(",") != headers:
-                self.merge_data(file, existing_data, headers)
+                self._merge_data(file, existing_data, headers)
             else:
                 self.logger.info(f"{file} has proper headers")
 
