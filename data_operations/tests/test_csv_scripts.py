@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch, mock_open, MagicMock
-from scripts.add_headers import DataParser
+from data_operations.preprocessing.add_headers import DataParser
 
 
 @pytest.fixture
