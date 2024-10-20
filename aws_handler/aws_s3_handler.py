@@ -16,7 +16,9 @@ class AWSS3Handler:
         self._check_if_folder_exists(destination_path)
         self._check_if_file_exists(filename, destination_path)
         self.log_overriding_file(filename, destination_path)
-        self.s3_client.download_file(self.aws_bucket_name, filename, f"{destination_path}/{filename}")
+        self.s3_client.download_file(
+            self.aws_bucket_name, filename, f"{destination_path}/{filename}"
+        )
 
     @staticmethod
     def _check_if_folder_exists(destination_path: str) -> None:
@@ -34,4 +36,6 @@ class AWSS3Handler:
 
 
 if __name__ == "__main__":
-    AWSS3Handler("data-hvac").download_file("OUT20_new_closed_loop_FIXED_2.csv", "example/")
+    AWSS3Handler("data-hvac").download_file(
+        "OUT20_new_closed_loop_FIXED_2.csv", "example/"
+    )
