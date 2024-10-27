@@ -1,6 +1,7 @@
 import logging
 import mlflow
 import mlflow.pyfunc
+from ModelWrapper import ModelWrapper
 
 
 class MLFlowManager:
@@ -18,7 +19,7 @@ class MLFlowManager:
         self.logger.info(f"Experiment set to: {experiment_name}")
         mlflow.set_experiment(experiment_name=experiment_name)
 
-    def log_model(self, model, model_name: str) -> None:
+    def log_model(self, model: ModelWrapper, model_name: str) -> None:
         with mlflow.start_run() as run:
             mlflow.pyfunc.log_model(artifact_path=model_name, python_model=model)
             self.logger.info(
