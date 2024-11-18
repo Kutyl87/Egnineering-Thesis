@@ -1,0 +1,20 @@
+class Metadata:
+    headers = [
+        "Timestamp",
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "I",
+        "V",
+        "PID set value",
+        "DMC set value",
+        "data set-value",
+        "FLU",
+        "FRU",
+        "FLB",
+        "FRB",
+        "HL",
+        "HR",
+    ]
