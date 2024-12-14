@@ -23,7 +23,6 @@ class CSVDataLoader:
         )
         self.logger = logging.getLogger(__name__)
         self.data_setup = DataSetup(os.getenv('AWS_BUCKET_NAME'))
-        self.f
 
     def prepare_data(self,
                      processed_data_path: str,
@@ -72,4 +71,4 @@ class CSVDataLoader:
         df_data = self.get_data_in_df(processed_data_path, filename)
         transformed_df = self._feature_transformation(df_data)
         X, y = self._get_x_y_data(transformed_df)
-        return SequentialDataset(X, y)
+        return SequentialDataset(X.values, y.values)

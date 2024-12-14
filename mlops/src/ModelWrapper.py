@@ -2,7 +2,7 @@ import mlflow
 import torch
 
 
-class ModelWrapper(mlflow.pyfunc.PythonFunction):
+class ModelWrapper(mlflow.pyfunc.PythonModel):
     def __init__(self, model):
         self.model = model
 
