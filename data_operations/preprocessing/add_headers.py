@@ -2,6 +2,8 @@ import os
 import csv
 import logging
 
+from data_operations.preprocessing.metadata import Metadata
+
 
 class DataParser:
     def __init__(self, encoding: str = "ascii"):
@@ -24,7 +26,7 @@ class DataParser:
             return existing_data
 
     def _merge_data(
-        self, file: str, previous_data: list[str], headers: list[str]
+            self, file: str, previous_data: list[str], headers: list[str]
     ) -> None:
         with open(file, "w", newline="") as f:
             writer = csv.writer(f)
@@ -32,35 +34,21 @@ class DataParser:
             writer.writerow(headers)
             f.writelines(previous_data)
 
-    def prepend_headers(self, file_list: list[str], headers: list[str]) -> None:
+    def prepend_headers(self, file_list: list[str], destination: str) -> None:
+        os.makedirs(destination, exist_ok=True)
         for file in file_list:
             existing_data = self._read_data(file)
-            if existing_data[0].strip().split(",") != headers:
-                self._merge_data(file, existing_data, headers)
+            destination_file = os.path.join(destination, os.path.basename(file))
+            if existing_data[0].strip().split(",") != Metadata.headers:
+                self._merge_data(destination_file, existing_data, Metadata.headers)
             else:
-                self.logger.info(f"{file} has proper headers")
+                self.logger.info(f"{file} has proper headers, copying to destination")
+                with open(destination_file, "w", newline="") as dest_f:
+                    dest_f.writelines(existing_data)
 
 
 if __name__ == "__main__":
     data_parser = DataParser()
-    files = data_parser.get_csv_files("../data")
-    headers = [
-        "Timestamp",
-        "T1",
-        "T2",
-        "T3",
-        "T4",
-        "T5",
-        "I",
-        "V",
-        "PID set value",
-        "DMC set value",
-        "data set-value",
-        "FLU",
-        "FRU",
-        "FLB",
-        "FRB",
-        "HL",
-        "HR",
-    ]
-    data_parser.prepend_headers(files, headers)
+    files = data_parser.get_csv_files("./data/raw")
+    destination = "./data/processed"
+    # data_parser.prepend_headers(files, destination, headers)

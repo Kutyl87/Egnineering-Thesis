@@ -37,5 +37,5 @@ class AWSS3Handler:
 
 if __name__ == "__main__":
     AWSS3Handler("data-hvac").download_file(
-        "OUT20_new_closed_loop_FIXED_2.csv", "example/"
+        "OUT20_new_closed_loop_FIXED_2.csv", "./data/external"
     )
