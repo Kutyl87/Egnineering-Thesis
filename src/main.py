@@ -1,3 +1,5 @@
+import argparse
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -11,6 +13,10 @@ from src.ml_pipeline import MLPipeline
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Run LSTM training pipeline with MLflow tracking")
+    parser.add_argument("--tracking_uri", type=str, required=True, help="MLflow Tracking URI")
+    args = parser.parse_args()
+
     csv_loader = CSVDataLoader()
     input_size = 8
     hidden_size = 28
@@ -20,7 +26,7 @@ def main():
     model = LSTMNet(input_size=input_size, hidden_size=hidden_size,
                     num_layers=num_layers, out_size=out_size, seq_length=seq_length)
     orchestrator = ModelOrchestrator(model, csv_loader)
-    mlflow_manager = MLFlowManager(experiment_name="LSTM experiment", tracking_uri="http://127.0.0.1:5000")
+    mlflow_manager = MLFlowManager(experiment_name="LSTM experiment", tracking_uri=args.tracking_uri)
     pipeline = MLPipeline(orchestrator, mlflow_manager)
     data_paths = ("./data/processed", "./data/raw")
     filename = "OUT20_new_closed_loop_FIXED_2.csv"
